@@ -1,0 +1,20 @@
+{
+  "name": "graphql-apollo-server",
+  "version": "1.0.0",
+  "description": "A GraphQL server built upon Apollo connecting with neo4j using neo4j-driver",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "GraphQL",
+    "Neo4j",
+    "Apollo"
+  ],
+  "author": "Chaitanya",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.9.7",
+    "neo4j-driver": "^1.7.6"
+  }
+}
