@@ -101,7 +101,7 @@ const resolvers = {
                         } AS book`)
                     .then(result => {
                         session.close();
-                        return result.records[0].get('book');
+                        return createFlatProps(result.records[0].get('book'));
                     })
         },
 
