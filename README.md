@@ -25,4 +25,16 @@ Working Points
 8. Better to maintain two resolvers always, since it will help in nested queries.
 
 
-FINAL CONCLUSION --> Write queries for all fields with resolvers. Don't go with nested cypher queries
+FINAL CONCLUSION --> Write queries for all fields with resolvers. Don't go with nested cypher queries!
+
+9. Whenvever returning a node from cypher query, use get('').properties, if you are returning an object instead, just use get('')
+
+10. Resolver always takes those 4 arguments irrespective of a query of a mutation
+
+11. Be Careful while forming cypher queries --> quotes needs to be given while appending string values
+
+=========================================================
+
+Thank You
+
+==========================================================

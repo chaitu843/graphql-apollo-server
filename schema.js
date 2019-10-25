@@ -32,12 +32,11 @@ const typedefs = gql`
     input authorInfo {
         name: String!,
         age: Int!
-        books: [Int!]
     }
 
     type Mutation {
-        addBook(book: bookInfo!): Book,
-        addAuthor(author: authorInfo!): Author
+        addBook(bookInfo: bookInfo!): Book,
+        addAuthor(authorInfo: authorInfo!): Author
     }
 `;
 

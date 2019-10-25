@@ -8,20 +8,20 @@ driver = neo4j.driver(URL, neo4j.auth.basic(username, password)),
 const resolvers = {
     Query: {
         getBooks() {
-            return session.run(`MATCH (book:Book)<-[:WROTE]-(author:Author) RETURN book {
+            return session.run(`MATCH (book:Book) RETURN book {
                 id: id(book),
-                .*,
-            })  AS book`)
+                .*
+            } AS book`)
                 .then((result) => {
                     session.close();
                     return result.records.map(record => {
-                        return createFlatProps(record.get('book').properties)
+                        return createFlatProps(record.get('book'))
                     });
                 });
         },
 
         getAuthors() {
-            return session.run(`MATCH (author:Author)-[:WROTE]->(book:Book) RETURN author {
+            return session.run(`MATCH (author:Author) RETURN author {
                 id: id(author),
                .*
             } AS author`)
@@ -34,7 +34,6 @@ const resolvers = {
         getBook(parent, args) {
             return session.run(`MATCH (book:Book) WHERE id(book) = ${args.id} RETURN book {
                 id: id(book),
-
                 .*
                 } AS book`)
                 .then((result) => {
@@ -88,8 +87,38 @@ const resolvers = {
                     return createFlatProps(result.records[0].get('author'));
                 })
         }
+    },
+
+    Mutation: {
+        addBook(parent, {bookInfo}) {
+            return session.run(`MATCH (author:Author) WHERE id(author) = ${bookInfo.authorId}
+                        WITH author
+                        CREATE (book:Book{name: '${bookInfo.name}', genre: '${bookInfo.genre}'})
+                        CREATE (author) -[:WROTE]-> (book)
+                        RETURN book {
+                            id: id(book),
+                            .*
+                        } AS book`)
+                    .then(result => {
+                        session.close();
+                        return result.records[0].get('book');
+                    })
+        },
+
+        addAuthor(parent, {authorInfo}) {
+            console.log(authorInfo);
+            return session.run(`CREATE (author:Author{name: '${authorInfo.name}', age: ${authorInfo.age}}) RETURN author {
+                id: id(author),
+                .*
+            } AS author`)
+            .then(result => {
+                session.close();
+                return createFlatProps(result.records[0].get('author'));
+            })
+        }
     }
 }
+
 function getSafeInteger(value) {
     if (neo4j.integer.inSafeRange(value)) return value.toNumber();
     else return value.toString();
