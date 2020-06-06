@@ -15,7 +15,7 @@
   "author": "Chaitanya",
   "license": "ISC",
   "dependencies": {
-    "apollo-server": "^2.9.7",
+    "apollo-server": "^2.14.2",
     "graphql": "^14.5.8",
     "neo4j-driver": "^1.7.6"
   }
